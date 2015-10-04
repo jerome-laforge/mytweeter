@@ -8,9 +8,9 @@ import (
 )
 
 type Tweet struct {
-	Timeline string     `cql:"timeline"`
-	Id       gocql.UUID `cql:"id"`
-	Text     string     `cql:"text"`
+	Timeline string     `cql:"timeline" json:"timeline"`
+	Id       gocql.UUID `cql:"id" json:"id"`
+	Text     string     `cql:"text" json:"text"`
 }
 
 func NewTweet(timeLine, text string) (tw *Tweet) {

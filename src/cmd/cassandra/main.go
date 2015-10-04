@@ -5,6 +5,7 @@ import (
 	"dto"
 	"fmt"
 	"log"
+	"www"
 )
 
 //sudo docker pull spotify/cassandra
@@ -35,4 +36,6 @@ func main() {
 	for tw.Next(binding) {
 		fmt.Println(tw)
 	}
+
+	www.GetWebServer()
 }
