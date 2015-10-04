@@ -14,6 +14,24 @@
 			"branch": "master"
 		},
 		{
+			"importpath": "github.com/gorilla/context",
+			"repository": "https://github.com/gorilla/context",
+			"revision": "1c83b3eabd45b6d76072b66b746c20815fb2872d",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/gorilla/securecookie",
+			"repository": "https://github.com/gorilla/securecookie",
+			"revision": "e95799a481bbcc3d01c2ad5178524cb8bec9f370",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/gorilla/sessions",
+			"repository": "https://github.com/gorilla/sessions",
+			"revision": "f7261893ca3ea922c30eabe742c036d2c1de6e0a",
+			"branch": "master"
+		},
+		{
 			"importpath": "github.com/relops/cqlr",
 			"repository": "https://github.com/relops/cqlr",
 			"revision": "0ac35893ea3f1e4ee717ba838972b70a0943f7d7",
