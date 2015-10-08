@@ -26,7 +26,7 @@ func GetWebServer() {
 		instance.e.Use(middleware.Logger())
 		instance.e.Post("/api/v1/tweet", createTweetV1)
 		instance.e.Get("/api/v1/tweets/:id", getAllTweetForV1)
-		//instance.e.Static("/", "www/static")
+		//instance.e.Static("/", "/www/static")
 		instance.e.Run(":8080")
 	})
 }
