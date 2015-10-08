@@ -24,14 +24,14 @@ func GetWebServer() {
 		instance = new(WebServer)
 		instance.e = echo.New()
 		instance.e.Use(middleware.Logger())
-		instance.e.Post("/api/tweet", createTweet)
-		instance.e.Get("/api/tweets/:id", getAllTweetFor)
+		instance.e.Post("/api/v1/tweet", createTweetV1)
+		instance.e.Get("/api/v1/tweets/:id", getAllTweetForV1)
 		//instance.e.Static("/", "www/static")
 		instance.e.Run(":8080")
 	})
 }
 
-func getAllTweetFor(c *echo.Context) error {
+func getAllTweetForV1(c *echo.Context) error {
 	id := c.Param("id")
 	tweets, err := dto.GetAllTweetsForTimeLine(id)
 	if err != nil {
@@ -43,7 +43,7 @@ func getAllTweetFor(c *echo.Context) error {
 	return c.JSON(http.StatusOK, tweets)
 }
 
-func createTweet(c *echo.Context) error {
+func createTweetV1(c *echo.Context) error {
 	tweet := new(dto.Tweet)
 	err := c.Bind(tweet)
 	if err != nil {
