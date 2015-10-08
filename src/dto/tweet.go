@@ -1,6 +1,7 @@
 package dto
 
 import (
+	"dao"
 	"fmt"
 
 	"github.com/gocql/gocql"
@@ -13,6 +14,25 @@ type Tweet struct {
 	Text     string     `cql:"text" json:"text"`
 }
 
+func (this *Tweet) Insert() error {
+	session, err := dao.NewSession()
+	if err != nil {
+		return err
+	}
+	defer session.Close()
+
+	b := cqlr.Bind(`INSERT INTO tweet (timeline, id, text) VALUES (?, ?, ?)`, this)
+	return b.Exec(session)
+}
+
+func (this Tweet) String() string {
+	return fmt.Sprintf(`Tweet id: "%s" text: "%s" timeline: "%s"`, this.Id, this.Text, this.Timeline)
+}
+
+func (this *Tweet) GenerateId() {
+	this.Id = gocql.TimeUUID()
+}
+
 func NewTweet(timeLine, text string) (tw *Tweet) {
 	tw = new(Tweet)
 	tw.Timeline = timeLine
@@ -21,20 +41,21 @@ func NewTweet(timeLine, text string) (tw *Tweet) {
 	return
 }
 
-func (this Tweet) Insert(session *gocql.Session) error {
-	b := cqlr.Bind(`INSERT INTO tweet (timeline, id, text) VALUES (?, ?, ?)`, this)
-	return b.Exec(session)
-}
+func GetAllTweetsForTimeLine(timeLine string) ([]Tweet, error) {
+	session, err := dao.NewSession()
+	if err != nil {
+		return nil, err
+	}
+	defer session.Close()
 
-func (this Tweet) Select(session *gocql.Session, timeLine string) *cqlr.Binding {
 	q := session.Query(`SELECT text, id, timeline FROM tweet WHERE timeline = ?`, timeLine)
-	return cqlr.BindQuery(q)
-}
+	bind := cqlr.BindQuery(q)
+	defer bind.Close()
 
-func (this *Tweet) Next(bind *cqlr.Binding) bool {
-	return bind.Scan(this)
-}
-
-func (this Tweet) String() string {
-	return fmt.Sprint("Tweet:", this.Id, this.Text, this.Timeline)
+	var tweets []Tweet
+	t := Tweet{}
+	for bind.Scan(&t) {
+		tweets = append(tweets, t)
+	}
+	return tweets, nil
 }

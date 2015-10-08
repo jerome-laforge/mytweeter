@@ -1,7 +1,6 @@
 package main
 
 import (
-	"dao"
 	"dto"
 	"fmt"
 	"log"
@@ -9,7 +8,7 @@ import (
 )
 
 //sudo docker pull spotify/cassandra
-//sudo docker run --name cassandra -p 9042:9042 spotify/cassandra
+//sudo docker run --name cassandra -d -p 9042:9042 spotify/cassandra
 //sudo docker exec -it cassandra bash
 
 //Before you execute the program, Launch `cqlsh` and execute:
@@ -21,20 +20,20 @@ import (
 //create index on example.user(login);
 //insert into example.user(id, login, passwd) values (now(), 'admin', 'f807c2b4caa8ca621298907e5372c975a6e07322');
 func main() {
-	session, err := dao.NewSession()
+	tw := dto.NewTweet("Dupont", "bonjour")
+	tw.Insert()
+	tw = dto.NewTweet("Tintin", "Milou!!")
+	tw.Insert()
+	tw = dto.NewTweet("Milou", "Ouaf")
+	tw.Insert()
+
+	tws, err := dto.GetAllTweetsForTimeLine("Tintin")
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer session.Close()
 
-	tw := dto.NewTweet("Jerome LAFORGE", "Hello world")
-	tw.Insert(session)
-
-	binding := tw.Select(session, "Jerome LAFORGE")
-	defer binding.Close()
-
-	for tw.Next(binding) {
-		fmt.Println(tw)
+	for idx := range tws {
+		fmt.Println(tws[idx])
 	}
 
 	www.GetWebServer()
