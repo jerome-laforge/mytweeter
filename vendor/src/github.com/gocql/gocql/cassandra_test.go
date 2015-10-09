@@ -17,6 +17,8 @@ import (
 	"testing"
 	"time"
 	"unicode"
+
+	"gopkg.in/inf.v0"
 )
 
 var (

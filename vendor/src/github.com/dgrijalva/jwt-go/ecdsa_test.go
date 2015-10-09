@@ -5,6 +5,8 @@ import (
 	"io/ioutil"
 	"strings"
 	"testing"
+
+	"github.com/dgrijalva/jwt-go"
 )
 
 var ecdsaTestData = []struct {

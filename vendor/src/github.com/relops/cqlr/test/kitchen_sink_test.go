@@ -3,12 +3,11 @@ package test
 import (
 	"bytes"
 	"fmt"
-	"strings"
-	"testing"
-
 	"github.com/gocql/gocql"
 	"github.com/relops/cqlr"
 	"github.com/stretchr/testify/assert"
+	"strings"
+	"testing"
 )
 
 func TestKitchenSink(t *testing.T) {

@@ -11,6 +11,8 @@ import (
 	"strings"
 	"testing"
 	"time"
+
+	"gopkg.in/inf.v0"
 )
 
 var marshalTests = []struct {

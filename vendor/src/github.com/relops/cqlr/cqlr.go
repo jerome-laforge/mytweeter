@@ -2,10 +2,9 @@ package cqlr
 
 import (
 	"errors"
+	"github.com/gocql/gocql"
 	"reflect"
 	"strings"
-
-	"github.com/gocql/gocql"
 )
 
 type Binding struct {

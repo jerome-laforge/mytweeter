@@ -5,11 +5,10 @@ package main
 import (
 	"bytes"
 	"fmt"
+	log "github.com/cihub/seelog"
 	"io/ioutil"
 	"os"
 	"text/template"
-
-	log "github.com/cihub/seelog"
 )
 
 var logConfig = `

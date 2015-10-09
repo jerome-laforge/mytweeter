@@ -14,6 +14,8 @@ import (
 	"io/ioutil"
 	"os"
 	"regexp"
+
+	"github.com/dgrijalva/jwt-go"
 )
 
 var (

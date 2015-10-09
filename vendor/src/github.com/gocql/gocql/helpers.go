@@ -9,6 +9,8 @@ import (
 	"reflect"
 	"strings"
 	"time"
+
+	"gopkg.in/inf.v0"
 )
 
 type RowData struct {

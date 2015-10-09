@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os"
 	"text/tabwriter"
+
+	"gopkg.in/inf.v0"
 )
 
 // This example displays the results of Dec.Round with each of the Rounders.

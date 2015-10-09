@@ -7,6 +7,8 @@ import (
 	"math/big"
 	"strings"
 	"testing"
+
+	"gopkg.in/inf.v0"
 )
 
 type decFunZZ func(z, x, y *inf.Dec) *inf.Dec

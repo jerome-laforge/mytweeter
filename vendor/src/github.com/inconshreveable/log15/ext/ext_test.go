@@ -2,10 +2,9 @@ package ext
 
 import (
 	"errors"
+	log "github.com/inconshreveable/log15"
 	"math"
 	"testing"
-
-	log "github.com/inconshreveable/log15"
 )
 
 func testHandler() (log.Handler, *log.Record) {

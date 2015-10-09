@@ -2,6 +2,7 @@ package jwt_test
 
 import (
 	"fmt"
+	"github.com/dgrijalva/jwt-go"
 	"time"
 )
 

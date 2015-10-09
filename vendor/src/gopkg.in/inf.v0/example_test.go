@@ -5,6 +5,8 @@ import (
 	"log"
 )
 
+import "gopkg.in/inf.v0"
+
 func ExampleDec_SetString() {
 	d := new(inf.Dec)
 	d.SetString("012345.67890") // decimal; leading 0 ignored; trailing 0 kept
