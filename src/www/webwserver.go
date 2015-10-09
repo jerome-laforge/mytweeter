@@ -5,11 +5,17 @@ import (
 	"log"
 	"net/http"
 
+	"config"
+
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 )
 
-func StartWebServer() {
+func StartWebServer() error {
+	conf, err := config.GetConfig()
+	if err != nil {
+		return err
+	}
 	e := echo.New()
 	e.Use(middleware.Recover())
 	e.Use(middleware.Logger())
@@ -17,7 +23,8 @@ func StartWebServer() {
 	e.Post("/api/v1/tweet", createTweetV1)
 	e.Get("/api/v1/tweets/:id", getAllTweetForV1)
 	//instance.e.Static("/", "/www/static")
-	e.Run(":8080")
+	e.Run(conf.Web.Address)
+	return nil
 }
 
 func getAllTweetForV1(c *echo.Context) error {

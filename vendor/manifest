@@ -46,6 +46,12 @@
 			"branch": "master"
 		},
 		{
+			"importpath": "github.com/go-ini/ini",
+			"repository": "https://github.com/go-ini/ini",
+			"revision": "aea5e9fd2e7dc7701717f980b20ccbced24cbb85",
+			"branch": "v1"
+		},
+		{
 			"importpath": "github.com/gocql/gocql",
 			"repository": "https://github.com/gocql/gocql",
 			"revision": "7ac77618338ef076ba157eeae4716fa4966410e0",
