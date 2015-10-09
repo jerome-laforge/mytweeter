@@ -8,26 +8,22 @@ import (
 )
 
 var (
-	instance *gocql.ClusterConfig
-	once     sync.Once
-	err      error
+	session *gocql.Session
+	once    sync.Once
+	err     error
 )
 
-func NewSession() (*gocql.Session, error) {
+func GetSession() (*gocql.Session, error) {
 	once.Do(func() {
 		var conf *config.Config
 		conf, err = config.GetConfig()
 		if err != nil {
 			return
 		}
-		instance = gocql.NewCluster(conf.Cassandra.Cluster...)
-		instance.Keyspace = conf.Cassandra.Keyspace
-		instance.Consistency = gocql.Quorum
+		cluster := gocql.NewCluster(conf.Cassandra.Cluster...)
+		cluster.Keyspace = conf.Cassandra.Keyspace
+		cluster.Consistency = gocql.Quorum
+		session, err = cluster.CreateSession()
 	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	return instance.CreateSession()
+	return session, err
 }

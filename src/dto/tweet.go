@@ -15,11 +15,10 @@ type Tweet struct {
 }
 
 func (this *Tweet) Insert() error {
-	session, err := dao.NewSession()
+	session, err := dao.GetSession()
 	if err != nil {
 		return err
 	}
-	defer session.Close()
 
 	b := cqlr.Bind(`INSERT INTO tweet (timeline, id, text) VALUES (?, ?, ?)`, this)
 	return b.Exec(session)
@@ -42,7 +41,7 @@ func NewTweet(timeLine, text string) (tw *Tweet) {
 }
 
 func GetAllTweetsForTimeLine(timeLine string) ([]Tweet, error) {
-	session, err := dao.NewSession()
+	session, err := dao.GetSession()
 	if err != nil {
 		return nil, err
 	}

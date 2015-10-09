@@ -1,6 +1,8 @@
 package main
 
 import (
+	"dao"
+	"log"
 	"os"
 	"www"
 )
@@ -18,6 +20,11 @@ import (
 //create index on example.user(login);
 //insert into example.user(id, login, passwd) values (now(), 'admin', 'f807c2b4caa8ca621298907e5372c975a6e07322');
 func main() {
+	session, err := dao.GetSession()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer session.Close()
 	www.StartWebServer()
 	os.Exit(0)
 }
