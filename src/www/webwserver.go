@@ -5,6 +5,7 @@ import (
 	"dto"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
@@ -21,6 +22,7 @@ func StartWebServer() error {
 	e.Use(middleware.Gzip())
 	e.Post("/api/v1/tweet", createTweetV1)
 	e.Get("/api/v1/tweets/:id", getAllTweetForV1)
+	e.Get("/api/v1/wait/:timeout", waitFor)
 	//e.Static("/", "/www/static")
 	e.Run(conf.Web.Address)
 	return nil
@@ -48,4 +50,14 @@ func createTweetV1(c *echo.Context) error {
 	tweet.GenerateId()
 	tweet.Insert()
 	return c.JSON(http.StatusOK, tweet)
+}
+
+func waitFor(c *echo.Context) error {
+	timeout, err := time.ParseDuration(c.Param("timeout"))
+	if err != nil {
+		timeout = 500 * time.Millisecond
+	}
+
+	time.Sleep(timeout)
+	return c.JSON(http.StatusOK, timeout.String())
 }
