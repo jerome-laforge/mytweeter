@@ -21,22 +21,6 @@ var once sync.Once
 //create index on example.user(login);
 //insert into example.user(id, login, passwd) values (now(), 'admin', 'f807c2b4caa8ca621298907e5372c975a6e07322');
 func main() {
-	//	tw := dto.NewTweet("Dupont", "bonjour")
-	//	tw.Insert()
-	//	tw = dto.NewTweet("Tintin", "Milou!!")
-	//	tw.Insert()
-	//	tw = dto.NewTweet("Milou", "Ouaf")
-	//	tw.Insert()
-	//
-	//	tws, err := dto.GetAllTweetsForTimeLine("Tintin")
-	//	if err != nil {
-	//		log.Fatal(err)
-	//	}
-	//
-	//	for idx := range tws {
-	//		fmt.Println(tws[idx])
-	//	}
-
 	www.StartWebServer()
 	os.Exit(0)
 }
