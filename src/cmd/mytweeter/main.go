@@ -10,12 +10,13 @@ import (
 
 //sudo docker pull spotify/cassandra
 //sudo docker run --name cassandra -d -p 9042:9042 spotify/cassandra
-//sudo docker exec -it cassandra bash
+//sudo docker exec -it cassandra cqlsh
 
 //Before you execute the program, Launch `cqlsh` and execute:
 //create keyspace example with replication = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };
 //create table example.tweet(timeline text, id UUID, text text, PRIMARY KEY(id));
 //create index on example.tweet(timeline);
+//insert into example.tweet(timeline, id, text) values ('Tintin', now(), 'Milou!');
 
 //create table example.user(id UUID, login text, passwd text, PRIMARY KEY(id));
 //create index on example.user(login);
