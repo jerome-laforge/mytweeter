@@ -1,9 +1,8 @@
 package dao
 
 import (
-	"sync"
-
 	"config"
+	"sync"
 
 	"github.com/gocql/gocql"
 )

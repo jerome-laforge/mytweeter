@@ -10,8 +10,8 @@ import (
 
 type Tweet struct {
 	Timeline string     `cql:"timeline" json:"timeline"`
-	Id       gocql.UUID `cql:"id" json:"id"`
-	Text     string     `cql:"text" json:"text"`
+	Id       gocql.UUID `cql:"id"       json:"id"`
+	Text     string     `cql:"text"     json:"text"`
 }
 
 func (this *Tweet) Insert() error {
