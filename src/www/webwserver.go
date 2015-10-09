@@ -6,15 +6,15 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/azer/logger"
+	"github.com/inconshreveable/log15"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 )
 
-var log *logger.Logger
+var log log15.Logger
 
 func StartWebServer() error {
-	log = logger.New("web-server")
+	log = log15.New("module", "webserver")
 	conf, err := config.GetConfig()
 	if err != nil {
 		return err
@@ -27,7 +27,7 @@ func StartWebServer() error {
 	e.Get("/api/v1/tweets/:id", getAllTweetForV1)
 	e.Get("/api/v1/wait/:timeout", waitFor)
 	//e.Static("/", "/www/static")
-	log.Info("Server listenning on %s", conf.Web.Address)
+	log.Info("Server listenning on " + conf.Web.Address)
 	e.Run(conf.Web.Address)
 	return nil
 }

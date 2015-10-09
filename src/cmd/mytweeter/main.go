@@ -2,9 +2,10 @@ package main
 
 import (
 	"dao"
-	"log"
 	"os"
 	"www"
+
+	"github.com/inconshreveable/log15"
 )
 
 //sudo docker pull spotify/cassandra
@@ -20,9 +21,12 @@ import (
 //create index on example.user(login);
 //insert into example.user(id, login, passwd) values (now(), 'admin', 'f807c2b4caa8ca621298907e5372c975a6e07322');
 func main() {
+	log := log15.New("module", "main")
+	log.Info("test")
 	session, err := dao.GetSession()
 	if err != nil {
-		log.Fatal(err)
+		log.Error(err.Error())
+		os.Exit(1)
 	}
 	defer session.Close()
 	www.StartWebServer()

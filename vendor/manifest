@@ -20,12 +20,6 @@
 			"branch": "master"
 		},
 		{
-			"importpath": "github.com/dgrijalva/jwt-go",
-			"repository": "https://github.com/dgrijalva/jwt-go",
-			"revision": "f62f64ea222e5e6d6d86421b5507b0862a3ebf7f",
-			"branch": "master"
-		},
-		{
 			"importpath": "github.com/facebookgo/clock",
 			"repository": "https://github.com/facebookgo/clock",
 			"revision": "600d898af40aa09a7a93ecb9265d87b0504b6f03",
@@ -88,9 +82,9 @@
 			"branch": "master"
 		},
 		{
-			"importpath": "github.com/gorilla/sessions",
-			"repository": "https://github.com/gorilla/sessions",
-			"revision": "f7261893ca3ea922c30eabe742c036d2c1de6e0a",
+			"importpath": "github.com/inconshreveable/log15",
+			"repository": "https://github.com/inconshreveable/log15",
+			"revision": "1c1f55cde622aae2c80b2dce7342b8cb648e2103",
 			"branch": "master"
 		},
 		{
@@ -112,6 +106,12 @@
 			"revision": "3c613419957bbd5afea3fc87bbc0f9f2dca19196",
 			"branch": "master",
 			"path": "/color"
+		},
+		{
+			"importpath": "github.com/mattn/go-colorable",
+			"repository": "https://github.com/mattn/go-colorable",
+			"revision": "40e4aedc8fabf8c23e040057540867186712faa5",
+			"branch": "master"
 		},
 		{
 			"importpath": "github.com/relops/cqlr",
