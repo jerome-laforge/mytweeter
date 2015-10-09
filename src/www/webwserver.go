@@ -22,7 +22,7 @@ func StartWebServer() error {
 	e.Use(middleware.Gzip())
 	e.Post("/api/v1/tweet", createTweetV1)
 	e.Get("/api/v1/tweets/:id", getAllTweetForV1)
-	//instance.e.Static("/", "/www/static")
+	//e.Static("/", "/www/static")
 	e.Run(conf.Web.Address)
 	return nil
 }
