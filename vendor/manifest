@@ -2,12 +2,6 @@
 	"version": 0,
 	"dependencies": [
 		{
-			"importpath": "github.com/azer/is-terminal",
-			"repository": "https://github.com/azer/is-terminal",
-			"revision": "559561a4b3b889f31433e8d5eb30835f5e42f09e",
-			"branch": "master"
-		},
-		{
 			"importpath": "github.com/azer/logger",
 			"repository": "https://github.com/azer/logger",
 			"revision": "d41294dc88bb322b91d4adf72f53864379f8b812",

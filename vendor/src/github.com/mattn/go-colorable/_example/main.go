@@ -1,9 +1,6 @@
 package main
 
-import (
-	"github.com/Sirupsen/logrus"
-	"github.com/mattn/go-colorable"
-)
+import "github.com/Sirupsen/logrus"
 
 func main() {
 	logrus.SetFormatter(&logrus.TextFormatter{ForceColors: true})

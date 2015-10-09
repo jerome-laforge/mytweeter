@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"syscall"
 	"time"
-	"github.com/azer/is-terminal"
 )
 
 var colorEnabled = isterminal.IsTerminal(syscall.Stderr)
