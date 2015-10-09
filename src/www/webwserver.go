@@ -3,6 +3,7 @@ package www
 import (
 	"config"
 	"dto"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -27,8 +28,11 @@ func StartWebServer() error {
 	e.Get("/api/v1/tweets/:id", getAllTweetForV1)
 	e.Get("/api/v1/wait/:timeout", waitFor)
 	//e.Static("/", "/www/static")
-	log.Info("Server listenning on " + conf.Web.Address)
-	e.Run(conf.Web.Address)
+	log.Info("Launching server on " + conf.Web.Address)
+	err = http.ListenAndServe(conf.Web.Address, e.Router())
+	if err != nil {
+		log.Error(fmt.Sprintf("Error during start web server : %s", err))
+	}
 	return nil
 }
 

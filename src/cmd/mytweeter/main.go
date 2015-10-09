@@ -23,7 +23,6 @@ import (
 func main() {
 	log15.Root().SetHandler(log15.CallerFileHandler(log15.StdoutHandler))
 	log := log15.New("module", "main")
-	log.Info("test")
 	session, err := dao.GetSession()
 	if err != nil {
 		log.Error(err.Error())
