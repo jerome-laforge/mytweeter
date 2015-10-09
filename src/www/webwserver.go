@@ -4,10 +4,12 @@ import (
 	"config"
 	"dto"
 	"fmt"
+	"io"
 	"net/http"
 	"os"
 	"time"
 
+	"github.com/afex/hystrix-go/hystrix"
 	"github.com/gorilla/handlers"
 	"github.com/inconshreveable/log15"
 	"github.com/labstack/echo"
@@ -21,10 +23,18 @@ func StartWebServer() error {
 	if err != nil {
 		return err
 	}
+
+	hystrix.ConfigureCommand("waitFor", hystrix.CommandConfig{
+		Timeout:               1000,
+		MaxConcurrentRequests: 100,
+		ErrorPercentThreshold: 25,
+	})
+
 	e := echo.New()
 	e.Post("/api/v1/tweet", createTweetV1)
 	e.Get("/api/v1/tweets/:id", getAllTweetForV1)
 	e.Get("/api/v1/wait/:timeout", waitFor)
+	e.Get("/api/v1/wait_protected/:timeout", waitForProtected)
 	//e.Static("/", "/www/static")
 	log.Info("Launching server on " + conf.Web.Address)
 	err = http.ListenAndServe(conf.Web.Address, handlers.LoggingHandler(os.Stdout, handlers.CompressHandler(e.Router())))
@@ -66,4 +76,26 @@ func waitFor(c *echo.Context) error {
 
 	time.Sleep(timeout)
 	return c.JSON(http.StatusOK, timeout.String())
+}
+
+func waitForProtected(c *echo.Context) error {
+	var response *http.Response
+	hystrix.Do("waitFor", func() error {
+		var err error
+		response, err = http.Get("http://127.0.0.1:8080/api/v1/wait/" + c.Param("timeout"))
+		//response, err = http.Get(fmt.Sprintf("%s://%s%s", c.Request().URL.Scheme, c.Request().URL.Host, c.Request().URL.Path))
+		if err != nil {
+			return err
+		}
+		r := response.Body
+		w := c.Response().Writer()
+		io.Copy(w, r)
+		return nil
+	}, func(err error) error {
+		log.Error(err.Error())
+		c.JSON(http.StatusInternalServerError, err.Error())
+		return nil
+	})
+
+	return nil
 }

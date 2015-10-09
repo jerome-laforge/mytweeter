@@ -2,6 +2,13 @@
 	"version": 0,
 	"dependencies": [
 		{
+			"importpath": "github.com/afex/hystrix-go/hystrix",
+			"repository": "https://github.com/afex/hystrix-go",
+			"revision": "9351b724be3950ef0ca82c53f817dcd33947e95e",
+			"branch": "master",
+			"path": "/hystrix"
+		},
+		{
 			"importpath": "github.com/bradfitz/http2",
 			"repository": "https://github.com/bradfitz/http2",
 			"revision": "6608b73ef18668469ee5365431dc3a106502c449",
