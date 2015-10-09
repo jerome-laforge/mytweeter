@@ -3,15 +3,18 @@ package www
 import (
 	"config"
 	"dto"
-	"log"
 	"net/http"
 	"time"
 
+	"github.com/azer/logger"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 )
 
+var log *logger.Logger
+
 func StartWebServer() error {
+	log = logger.New("web-server")
 	conf, err := config.GetConfig()
 	if err != nil {
 		return err
@@ -24,6 +27,7 @@ func StartWebServer() error {
 	e.Get("/api/v1/tweets/:id", getAllTweetForV1)
 	e.Get("/api/v1/wait/:timeout", waitFor)
 	//e.Static("/", "/www/static")
+	log.Info("Server listenning on %s", conf.Web.Address)
 	e.Run(conf.Web.Address)
 	return nil
 }
@@ -44,7 +48,7 @@ func createTweetV1(c *echo.Context) error {
 	tweet := new(dto.Tweet)
 	err := c.Bind(tweet)
 	if err != nil {
-		log.Print(err)
+		log.Error(err.Error())
 		return c.JSON(http.StatusBadRequest, nil)
 	}
 	tweet.GenerateId()
