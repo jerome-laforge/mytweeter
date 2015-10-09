@@ -45,7 +45,6 @@ func GetAllTweetsForTimeLine(timeLine string) ([]Tweet, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer session.Close()
 
 	q := session.Query(`SELECT text, id, timeline FROM tweet WHERE timeline = ?`, timeLine)
 	bind := cqlr.BindQuery(q)
