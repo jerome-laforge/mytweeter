@@ -1,5 +1,4 @@
 footer {
-    padding: 40px 80px !important;
     background-color: inherit !important;
     border-top: 2px solid #E0E0E0;
 }
@@ -15,12 +14,14 @@ footer {
 .github a:hover {
     color: #333;
 }
-code {
-    font-size: .95em;
+:not(pre) > code {
     padding: 2px 4px;
-    background: #eee;
+    background: #EEE;
     color: #424242;
+    font-size: .95em;
     font-family: Source Code Pro, Monaco, Menlo, Consolas, monospace;
+    border: 1px solid #E0E0E0;
+    border-radius: 2px;
 }
 a:link {
     text-decoration: none;
@@ -33,8 +34,19 @@ a:link {
 .page-content header {
     padding-bottom: 16px;
 }
+.menu {
+    margin-right: 40px;
+}
 .menu a {
     display: block;
     color: #757575;
-    padding: 2px 0
+    padding: 5px;
+    border-left:4px #F06292 solid;
+}
+.menu a:hover:not(.active) {
+    background-color: #E0E0E0;
+}
+.menu .active {
+    color: #FFF;
+    background-color: #F06292;
 }

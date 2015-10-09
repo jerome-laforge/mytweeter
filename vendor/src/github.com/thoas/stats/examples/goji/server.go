@@ -2,10 +2,9 @@ package main
 
 import (
 	"encoding/json"
-	"net/http"
-
 	"github.com/thoas/stats"
 	"github.com/zenazn/goji"
+	"net/http"
 )
 
 func main() {

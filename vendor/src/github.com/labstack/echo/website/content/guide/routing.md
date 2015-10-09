@@ -1,9 +1,9 @@
 ---
 title: Routing
 menu:
-  main:
+  side:
     parent: guide
-    weight: 30
+    weight: 3
 ---
 
 Echo's router is [fast, optimized]({{< relref "index.md#performance">}}) and

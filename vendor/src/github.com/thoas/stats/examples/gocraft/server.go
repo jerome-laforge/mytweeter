@@ -2,10 +2,9 @@ package main
 
 import (
 	"encoding/json"
-	"net/http"
-
 	"github.com/gocraft/web"
 	"github.com/thoas/stats"
+	"net/http"
 )
 
 var Stats = stats.New()

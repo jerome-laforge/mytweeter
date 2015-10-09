@@ -3,12 +3,11 @@ package main
 import (
 	"io/ioutil"
 
+	"github.com/labstack/echo"
+	mw "github.com/labstack/echo/middleware"
 	"io"
 	"net/http"
 	"os"
-
-	"github.com/labstack/echo"
-	mw "github.com/labstack/echo/middleware"
 )
 
 func upload(c *echo.Context) error {

@@ -1,9 +1,9 @@
 ---
 title: Response
 menu:
-  main:
+  side:
     parent: guide
-    weight: 60
+    weight: 6
 ---
 
 ### Template

@@ -17,7 +17,7 @@
                             <section class="content">
                                 {{ .Content }}
                             </section>
-                            <footer>
+                            <footer style="margin-top: 80px;">
                                 <div id="disqus_thread"></div>
                                 <script type="text/javascript">
                                     /* * * CONFIGURATION VARIABLES * * */
@@ -37,8 +37,8 @@
                     </div>
                 </div>
             </div>
+            {{ partial "footer.html" . }}
         </main>
-        {{ partial "footer.html" . }}
     </div>
 </body>
 

@@ -1,11 +1,10 @@
 package main
 
 import (
-	"net/http"
-	"time"
-
 	"github.com/gin-gonic/gin"
 	"github.com/thoas/stats"
+	"net/http"
+	"time"
 )
 
 var Stats = stats.New()

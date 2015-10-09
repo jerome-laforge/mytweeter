@@ -1,9 +1,9 @@
 ---
 title: Customization
 menu:
-  main:
+  side:
     parent: guide
-    weight: 20
+    weight: 2
 ---
 
 ### HTTP error handler

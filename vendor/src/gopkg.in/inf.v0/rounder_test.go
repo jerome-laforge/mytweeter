@@ -3,8 +3,6 @@ package inf_test
 import (
 	"math/big"
 	"testing"
-
-	"gopkg.in/inf.v0"
 )
 
 var decRounderInputs = [...]struct {

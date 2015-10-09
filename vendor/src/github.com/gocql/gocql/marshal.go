@@ -16,8 +16,6 @@ import (
 	"strconv"
 	"strings"
 	"time"
-
-	"gopkg.in/inf.v0"
 )
 
 var (

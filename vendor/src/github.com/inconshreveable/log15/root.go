@@ -4,7 +4,6 @@ import (
 	"os"
 
 	"github.com/inconshreveable/log15/term"
-	colorable "github.com/mattn/go-colorable"
 )
 
 var (

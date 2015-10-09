@@ -1,9 +1,9 @@
 ---
 title: Request
 menu:
-  main:
+  side:
     parent: guide
-    weight: 50
+    weight: 5
 ---
 
 ### Path parameter

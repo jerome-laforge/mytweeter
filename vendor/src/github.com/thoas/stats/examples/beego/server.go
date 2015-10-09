@@ -1,11 +1,10 @@
 package main
 
 import (
-	"time"
-
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/context"
 	"github.com/thoas/stats"
+	"time"
 )
 
 var Stats = stats.New()

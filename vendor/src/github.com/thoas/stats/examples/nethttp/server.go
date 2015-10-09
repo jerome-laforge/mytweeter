@@ -1,9 +1,8 @@
 package main
 
 import (
-	"net/http"
-
 	"github.com/thoas/stats"
+	"net/http"
 )
 
 func main() {

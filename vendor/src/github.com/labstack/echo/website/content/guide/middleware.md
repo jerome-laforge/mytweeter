@@ -1,9 +1,9 @@
 ---
 title: Middleware
 menu:
-  main:
+  side:
     parent: guide
-    weight: 40
+    weight: 4
 ---
 
 Middleware is a function which is chained in the HTTP request-response cycle. Middleware
@@ -64,4 +64,4 @@ control to the centralized
 e.Use(mw.Recover())
 ```
 
-[Examples](https://github.com/labstack/echo/tree/master/examples/middleware)
+### [Recipes](https://github.com/labstack/echo/tree/master/recipes/middleware)

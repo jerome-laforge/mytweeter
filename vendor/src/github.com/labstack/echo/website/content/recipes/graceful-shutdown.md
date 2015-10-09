@@ -1,63 +1,29 @@
 ---
 title: Graceful Shutdown
 menu:
-  main:
+  side:
     parent: recipes
+    weight: 13
 ---
 
 ### With [graceful](https://github.com/tylerb/graceful)
 
 `server.go`
 
-```go
-package main
-
-import (
-	"net/http"
-	"time"
-
-	"github.com/labstack/echo"
-	"github.com/tylerb/graceful"
-)
-
-func main() {
-	// Setup
-	e := echo.New()
-	e.Get("/", func(c *echo.Context) error {
-		return c.String(http.StatusOK, "Sue sews rose on slow jor crows nose")
-	})
-
-	graceful.ListenAndServe(e.Server(":1323"), 5*time.Second)
-}
-```
+{{< embed "graceful-shutdown/grace/server.go" >}}
 
 ### With [grace](https://github.com/facebookgo/grace)
 
 `server.go`
 
-```go
-package main
+{{< embed "graceful-shutdown/graceful/server.go" >}}
 
-import (
-	"net/http"
+### Maintainers
 
-	"github.com/facebookgo/grace/gracehttp"
-	"github.com/labstack/echo"
-)
+- [mertenvg](https://github.com/mertenvg)
 
-func main() {
-	// Setup
-	e := echo.New()
-	e.Get("/", func(c *echo.Context) error {
-		return c.String(http.StatusOK, "Six sick bricks tick")
-	})
+### Source Code
 
-	gracehttp.Serve(e.Server(":1323"))
-}
-```
+[graceful](https://github.com/labstack/echo/blob/master/recipes/graceful-shutdown/graceful)
 
-## Source Code
-
-[`graceful`](https://github.com/labstack/echo/blob/master/recipes/graceful-shutdown/graceful)
-
-[`grace`](https://github.com/labstack/echo/blob/master/recipes/graceful-shutdown/grace)
+[grace](https://github.com/labstack/echo/blob/master/recipes/graceful-shutdown/grace)
