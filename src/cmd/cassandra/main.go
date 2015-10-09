@@ -2,11 +2,8 @@ package main
 
 import (
 	"os"
-	"sync"
 	"www"
 )
-
-var once sync.Once
 
 //sudo docker pull spotify/cassandra
 //sudo docker run --name cassandra -d -p 9042:9042 spotify/cassandra
