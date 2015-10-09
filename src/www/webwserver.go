@@ -4,31 +4,20 @@ import (
 	"dto"
 	"log"
 	"net/http"
-	"sync"
 
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 )
 
-type WebServer struct {
-	e *echo.Echo
-}
-
-var (
-	instance *WebServer
-	once     sync.Once
-)
-
-func GetWebServer() {
-	once.Do(func() {
-		instance = new(WebServer)
-		instance.e = echo.New()
-		instance.e.Use(middleware.Logger())
-		instance.e.Post("/api/v1/tweet", createTweetV1)
-		instance.e.Get("/api/v1/tweets/:id", getAllTweetForV1)
-		//instance.e.Static("/", "/www/static")
-		instance.e.Run(":8080")
-	})
+func StartWebServer() {
+	e := echo.New()
+	e.Use(middleware.Recover())
+	e.Use(middleware.Logger())
+	e.Use(middleware.Gzip())
+	e.Post("/api/v1/tweet", createTweetV1)
+	e.Get("/api/v1/tweets/:id", getAllTweetForV1)
+	//instance.e.Static("/", "/www/static")
+	e.Run(":8080")
 }
 
 func getAllTweetForV1(c *echo.Context) error {

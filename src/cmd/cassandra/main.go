@@ -1,11 +1,12 @@
 package main
 
 import (
-	"dto"
-	"fmt"
-	"log"
+	"os"
+	"sync"
 	"www"
 )
+
+var once sync.Once
 
 //sudo docker pull spotify/cassandra
 //sudo docker run --name cassandra -d -p 9042:9042 spotify/cassandra
@@ -20,21 +21,22 @@ import (
 //create index on example.user(login);
 //insert into example.user(id, login, passwd) values (now(), 'admin', 'f807c2b4caa8ca621298907e5372c975a6e07322');
 func main() {
-	tw := dto.NewTweet("Dupont", "bonjour")
-	tw.Insert()
-	tw = dto.NewTweet("Tintin", "Milou!!")
-	tw.Insert()
-	tw = dto.NewTweet("Milou", "Ouaf")
-	tw.Insert()
+	//	tw := dto.NewTweet("Dupont", "bonjour")
+	//	tw.Insert()
+	//	tw = dto.NewTweet("Tintin", "Milou!!")
+	//	tw.Insert()
+	//	tw = dto.NewTweet("Milou", "Ouaf")
+	//	tw.Insert()
+	//
+	//	tws, err := dto.GetAllTweetsForTimeLine("Tintin")
+	//	if err != nil {
+	//		log.Fatal(err)
+	//	}
+	//
+	//	for idx := range tws {
+	//		fmt.Println(tws[idx])
+	//	}
 
-	tws, err := dto.GetAllTweetsForTimeLine("Tintin")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	for idx := range tws {
-		fmt.Println(tws[idx])
-	}
-
-	www.GetWebServer()
+	www.StartWebServer()
+	os.Exit(0)
 }
