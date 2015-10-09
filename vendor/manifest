@@ -64,6 +64,12 @@
 			"branch": "master"
 		},
 		{
+			"importpath": "github.com/gorilla/handlers",
+			"repository": "https://github.com/gorilla/handlers",
+			"revision": "40694b40f4a928c062f56849989d3e9cd0570e5f",
+			"branch": "master"
+		},
+		{
 			"importpath": "github.com/inconshreveable/log15",
 			"repository": "https://github.com/inconshreveable/log15",
 			"revision": "1c1f55cde622aae2c80b2dce7342b8cb648e2103",
