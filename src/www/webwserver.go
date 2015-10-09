@@ -1,11 +1,10 @@
 package www
 
 import (
+	"config"
 	"dto"
 	"log"
 	"net/http"
-
-	"config"
 
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
