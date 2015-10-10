@@ -20,6 +20,13 @@ type Config struct {
 	Web struct {
 		Address string
 	}
+	Hystrix struct {
+		Timeout                int
+		MaxConcurrentRequests  int
+		RequestVolumeThreshold int
+		SleepWindow            int
+		ErrorPercentThreshold  int
+	}
 }
 
 func GetConfig() (*Config, error) {

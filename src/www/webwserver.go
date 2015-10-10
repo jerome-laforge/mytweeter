@@ -25,9 +25,11 @@ func StartWebServer() error {
 	}
 
 	hystrix.ConfigureCommand("waitFor", hystrix.CommandConfig{
-		Timeout:               1000,
-		MaxConcurrentRequests: 100,
-		ErrorPercentThreshold: 25,
+		Timeout:                conf.Hystrix.Timeout,
+		MaxConcurrentRequests:  conf.Hystrix.MaxConcurrentRequests,
+		ErrorPercentThreshold:  conf.Hystrix.ErrorPercentThreshold,
+		RequestVolumeThreshold: conf.Hystrix.RequestVolumeThreshold,
+		SleepWindow:            conf.Hystrix.SleepWindow,
 	})
 
 	e := echo.New()
