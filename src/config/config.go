@@ -27,6 +27,9 @@ type Config struct {
 		SleepWindow            int
 		ErrorPercentThreshold  int
 	}
+	Endless struct {
+		DefaultHammerTime string
+	}
 }
 
 func GetConfig() (*Config, error) {

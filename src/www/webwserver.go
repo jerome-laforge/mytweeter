@@ -7,9 +7,11 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/afex/hystrix-go/hystrix"
+	"github.com/fvbock/endless"
 	"github.com/gorilla/handlers"
 	"github.com/inconshreveable/log15"
 	"github.com/labstack/echo"
@@ -32,6 +34,17 @@ func StartWebServer() error {
 		SleepWindow:            conf.Hystrix.SleepWindow,
 	})
 
+	conf.Endless.DefaultHammerTime = strings.TrimSpace(conf.Endless.DefaultHammerTime)
+	if conf.Endless.DefaultHammerTime != "" {
+		duration, err := time.ParseDuration(conf.Endless.DefaultHammerTime)
+		if err == nil {
+			log.Info("Set HammerTime to " + duration.String())
+			endless.DefaultHammerTime = duration
+		} else {
+			log.Error("Bad format for Endless/DefaultHammerTime " + conf.Endless.DefaultHammerTime + " err: " + err.Error())
+		}
+	}
+
 	e := echo.New()
 	e.Post("/api/v1/tweet", createTweetV1)
 	e.Get("/api/v1/tweets/:id", getAllTweetForV1)
@@ -39,7 +52,7 @@ func StartWebServer() error {
 	e.Get("/api/v1/wait_protected/:timeout", waitForProtected)
 	//e.Static("/", "/www/static")
 	log.Info("Launching server on " + conf.Web.Address)
-	err = http.ListenAndServe(conf.Web.Address, handlers.LoggingHandler(os.Stdout, handlers.CompressHandler(e.Router())))
+	err = endless.ListenAndServe(conf.Web.Address, handlers.LoggingHandler(os.Stdout, handlers.CompressHandler(e.Router())))
 	if err != nil {
 		log.Error(fmt.Sprintf("Error during start web server : %s", err))
 	}

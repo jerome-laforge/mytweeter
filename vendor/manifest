@@ -53,6 +53,12 @@
 			"branch": "master"
 		},
 		{
+			"importpath": "github.com/fvbock/endless",
+			"repository": "https://github.com/fvbock/endless",
+			"revision": "29731417c69b13f53da28038a454e832c59519c4",
+			"branch": "master"
+		},
+		{
 			"importpath": "github.com/go-ini/ini",
 			"repository": "https://github.com/go-ini/ini",
 			"revision": "aea5e9fd2e7dc7701717f980b20ccbced24cbb85",
@@ -71,9 +77,21 @@
 			"branch": "master"
 		},
 		{
+			"importpath": "github.com/gorilla/context",
+			"repository": "https://github.com/gorilla/context",
+			"revision": "1c83b3eabd45b6d76072b66b746c20815fb2872d",
+			"branch": "master"
+		},
+		{
 			"importpath": "github.com/gorilla/handlers",
 			"repository": "https://github.com/gorilla/handlers",
 			"revision": "40694b40f4a928c062f56849989d3e9cd0570e5f",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/gorilla/mux",
+			"repository": "https://github.com/gorilla/mux",
+			"revision": "ad4d7a5882b961e07e2626045eb995c022ac6664",
 			"branch": "master"
 		},
 		{
