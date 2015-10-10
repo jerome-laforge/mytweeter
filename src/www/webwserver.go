@@ -64,7 +64,10 @@ func createTweetV1(c *echo.Context) error {
 		return c.JSON(http.StatusBadRequest, nil)
 	}
 	tweet.GenerateId()
-	tweet.Insert()
+	err = tweet.Insert()
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err)
+	}
 	return c.JSON(http.StatusOK, tweet)
 }
 
