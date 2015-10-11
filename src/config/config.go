@@ -21,7 +21,7 @@ type Config struct {
 		Address string
 	}
 	Hystrix struct {
-		Timeout                int
+		Timeout                string
 		MaxConcurrentRequests  int
 		RequestVolumeThreshold int
 		SleepWindow            int

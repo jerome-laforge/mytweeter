@@ -7,6 +7,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 
@@ -26,8 +27,18 @@ func StartWebServer() error {
 		return err
 	}
 
+	var hystrixTimeout time.Duration
+	conf.Hystrix.Timeout = strings.TrimSpace(conf.Hystrix.Timeout)
+	if conf.Hystrix.Timeout != "" {
+		hystrixTimeout, err = time.ParseDuration(conf.Hystrix.Timeout)
+		if err != nil || hystrixTimeout < time.Millisecond {
+			hystrixTimeout = time.Second
+			log.Error(fmt.Sprintf("Use default time for hystrix timeout %s", hystrixTimeout))
+		}
+	}
+
 	hystrix.ConfigureCommand("waitFor", hystrix.CommandConfig{
-		Timeout:                conf.Hystrix.Timeout,
+		Timeout:                int(int64(hystrixTimeout) / int64(time.Millisecond)), // converted into Millisecond.
 		MaxConcurrentRequests:  conf.Hystrix.MaxConcurrentRequests,
 		ErrorPercentThreshold:  conf.Hystrix.ErrorPercentThreshold,
 		RequestVolumeThreshold: conf.Hystrix.RequestVolumeThreshold,
@@ -38,7 +49,6 @@ func StartWebServer() error {
 	if conf.Endless.DefaultHammerTime != "" {
 		duration, err := time.ParseDuration(conf.Endless.DefaultHammerTime)
 		if err == nil {
-			log.Info("Set HammerTime to " + duration.String())
 			endless.DefaultHammerTime = duration
 		} else {
 			log.Error("Bad format for Endless/DefaultHammerTime " + conf.Endless.DefaultHammerTime + " err: " + err.Error())
@@ -93,7 +103,7 @@ func waitFor(c *echo.Context) error {
 	}
 
 	time.Sleep(timeout)
-	return c.JSON(http.StatusOK, timeout.String())
+	return c.JSON(http.StatusOK, timeout.String()+" by pid = "+strconv.Itoa(os.Getpid()))
 }
 
 func waitForProtected(c *echo.Context) error {
