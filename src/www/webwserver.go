@@ -9,6 +9,8 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"sync/atomic"
+	"syscall"
 	"time"
 
 	"github.com/afex/hystrix-go/hystrix"
@@ -18,7 +20,10 @@ import (
 	"github.com/labstack/echo"
 )
 
-var log log15.Logger
+var (
+	log        log15.Logger
+	terminated int32
+)
 
 func StartWebServer() error {
 	log = log15.New("module", "webserver")
@@ -61,12 +66,25 @@ func StartWebServer() error {
 	e.Get("/api/v1/wait/:timeout", waitFor)
 	e.Get("/api/v1/wait_protected/:timeout", waitForProtected)
 	//e.Static("/", "/www/static")
-	log.Info("Launching server on " + conf.Web.Address)
-	err = endless.ListenAndServe(conf.Web.Address, handlers.LoggingHandler(os.Stdout, handlers.CompressHandler(e.Router())))
-	if err != nil {
-		log.Error(fmt.Sprintf("Error during start web server : %s", err))
+	log.Info(fmt.Sprintf("Launching server [pid=%s] on %s", strconv.Itoa(os.Getpid()), conf.Web.Address))
+	//err = endless.ListenAndServe(conf.Web.Address, handlers.LoggingHandler(os.Stdout, handlers.CompressHandler(e.Router())))
+	srv := endless.NewServer(conf.Web.Address, handlers.LoggingHandler(os.Stdout, handlers.CompressHandler(e.Router())))
+	preHookFunc := func() {
+		atomic.StoreInt32(&terminated, 1)
 	}
-	return nil
+	srv.RegisterSignalHook(endless.PRE_SIGNAL, syscall.SIGHUP, preHookFunc)
+	srv.RegisterSignalHook(endless.PRE_SIGNAL, syscall.SIGINT, preHookFunc)
+	srv.RegisterSignalHook(endless.PRE_SIGNAL, syscall.SIGTERM, preHookFunc)
+	err = srv.ListenAndServe()
+	if atomic.LoadInt32(&terminated) == 0 {
+		if err != nil {
+			log.Error(fmt.Sprintf("During startup of server [pid=%s], this error has occurred : %s", strconv.Itoa(os.Getpid()), err))
+		}
+		return err
+	} else {
+		log.Info(fmt.Sprintf("Server [pid=%s] is going to shutdown", strconv.Itoa(os.Getpid())))
+		return nil
+	}
 }
 
 func getAllTweetForV1(c *echo.Context) error {
