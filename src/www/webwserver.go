@@ -9,20 +9,16 @@ import (
 	"os"
 	"strconv"
 	"strings"
-	"sync/atomic"
-	"syscall"
 	"time"
 
 	"github.com/afex/hystrix-go/hystrix"
-	"github.com/fvbock/endless"
 	"github.com/gorilla/handlers"
 	"github.com/inconshreveable/log15"
 	"github.com/labstack/echo"
 )
 
 var (
-	log        log15.Logger
-	terminated int32
+	log log15.Logger
 )
 
 func StartWebServer() error {
@@ -50,16 +46,6 @@ func StartWebServer() error {
 		SleepWindow:            conf.Hystrix.SleepWindow,
 	})
 
-	conf.Endless.DefaultHammerTime = strings.TrimSpace(conf.Endless.DefaultHammerTime)
-	if conf.Endless.DefaultHammerTime != "" {
-		duration, err := time.ParseDuration(conf.Endless.DefaultHammerTime)
-		if err == nil {
-			endless.DefaultHammerTime = duration
-		} else {
-			log.Error("Bad format for Endless/DefaultHammerTime " + conf.Endless.DefaultHammerTime + " err: " + err.Error())
-		}
-	}
-
 	e := echo.New()
 	e.Post("/api/v1/tweet", createTweetV1)
 	e.Get("/api/v1/tweets/:id", getAllTweetForV1)
@@ -68,23 +54,7 @@ func StartWebServer() error {
 	//e.Static("/", "/www/static")
 	log.Info(fmt.Sprintf("Launching server [pid=%s] on %s", strconv.Itoa(os.Getpid()), conf.Web.Address))
 	//err = endless.ListenAndServe(conf.Web.Address, handlers.LoggingHandler(os.Stdout, handlers.CompressHandler(e.Router())))
-	srv := endless.NewServer(conf.Web.Address, handlers.LoggingHandler(os.Stdout, handlers.CompressHandler(e.Router())))
-	preHookFunc := func() {
-		atomic.StoreInt32(&terminated, 1)
-	}
-	srv.RegisterSignalHook(endless.PRE_SIGNAL, syscall.SIGHUP, preHookFunc)
-	srv.RegisterSignalHook(endless.PRE_SIGNAL, syscall.SIGINT, preHookFunc)
-	srv.RegisterSignalHook(endless.PRE_SIGNAL, syscall.SIGTERM, preHookFunc)
-	err = srv.ListenAndServe()
-	if atomic.LoadInt32(&terminated) == 0 {
-		if err != nil {
-			log.Error(fmt.Sprintf("During startup of server [pid=%s], this error has occurred : %s", strconv.Itoa(os.Getpid()), err))
-		}
-		return err
-	} else {
-		log.Info(fmt.Sprintf("Server [pid=%s] is going to shutdown", strconv.Itoa(os.Getpid())))
-		return nil
-	}
+	return listenAndServer(conf.Web.Address, handlers.LoggingHandler(os.Stdout, handlers.CompressHandler(e.Router())))
 }
 
 func getAllTweetForV1(c *echo.Context) error {
