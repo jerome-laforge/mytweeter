@@ -3,7 +3,6 @@ package www
 import (
 	"config"
 	"dto"
-	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -17,12 +16,7 @@ import (
 	"github.com/labstack/echo"
 )
 
-var (
-	log log15.Logger
-)
-
 func StartWebServer() error {
-	log = log15.New("module", "webserver")
 	conf, err := config.GetConfig()
 	if err != nil {
 		return err
@@ -34,7 +28,7 @@ func StartWebServer() error {
 		hystrixTimeout, err = time.ParseDuration(conf.Hystrix.Timeout)
 		if err != nil || hystrixTimeout < time.Millisecond {
 			hystrixTimeout = time.Second
-			log.Error(fmt.Sprintf("Use default time for hystrix timeout %s", hystrixTimeout))
+			log15.Error("Use default time", "module", "hystrix", "timeout", hystrixTimeout)
 		}
 	}
 
@@ -52,9 +46,8 @@ func StartWebServer() error {
 	e.Get("/api/v1/wait/:timeout", waitFor)
 	e.Get("/api/v1/wait_protected/:timeout", waitForProtected)
 	//e.Static("/", "/www/static")
-	log.Info(fmt.Sprintf("Launching server [pid=%s] on %s", strconv.Itoa(os.Getpid()), conf.Web.Address))
-	//err = endless.ListenAndServe(conf.Web.Address, handlers.LoggingHandler(os.Stdout, handlers.CompressHandler(e.Router())))
-	return listenAndServer(conf.Web.Address, handlers.LoggingHandler(os.Stdout, handlers.CompressHandler(e.Router())))
+	logsrv := log15.New("pid", os.Getpid(), "addr", conf.Web.Address)
+	return listenAndServer(logsrv, conf.Web.Address, handlers.LoggingHandler(os.Stdout, handlers.CompressHandler(e.Router())))
 }
 
 func getAllTweetForV1(c *echo.Context) error {
@@ -73,7 +66,7 @@ func createTweetV1(c *echo.Context) error {
 	tweet := new(dto.Tweet)
 	err := c.Bind(tweet)
 	if err != nil {
-		log.Error(err.Error())
+		log15.Error(err.Error())
 		return c.JSON(http.StatusBadRequest, nil)
 	}
 	tweet.GenerateId()
@@ -108,7 +101,7 @@ func waitForProtected(c *echo.Context) error {
 		io.Copy(w, r)
 		return nil
 	}, func(err error) error {
-		log.Error(err.Error())
+		log15.Error(err.Error())
 		c.JSON(http.StatusInternalServerError, err.Error())
 		return nil
 	})

@@ -2,19 +2,17 @@ package www
 
 import (
 	"config"
-	"fmt"
 	"net/http"
-	"os"
-	"strconv"
 	"strings"
 	"sync/atomic"
 	"syscall"
 	"time"
 
 	"github.com/fvbock/endless"
+	"github.com/inconshreveable/log15"
 )
 
-func listenAndServer(addr string, handler http.Handler) error {
+func listenAndServer(log log15.Logger, addr string, handler http.Handler) error {
 	conf, err := config.GetConfig()
 	if err != nil {
 		return err
@@ -27,7 +25,7 @@ func listenAndServer(addr string, handler http.Handler) error {
 		if err == nil {
 			endless.DefaultHammerTime = duration
 		} else {
-			log.Error("Bad format for Endless/DefaultHammerTime " + conf.Endless.DefaultHammerTime + " err: " + err.Error())
+			log.Error("Bad format", log15.Ctx{"module": "Endless", "DefaultHammerTime": conf.Endless.DefaultHammerTime, "error": err})
 		}
 	}
 
@@ -39,14 +37,16 @@ func listenAndServer(addr string, handler http.Handler) error {
 	srv.RegisterSignalHook(endless.PRE_SIGNAL, syscall.SIGHUP, preHookFunc)
 	srv.RegisterSignalHook(endless.PRE_SIGNAL, syscall.SIGINT, preHookFunc)
 	srv.RegisterSignalHook(endless.PRE_SIGNAL, syscall.SIGTERM, preHookFunc)
+
+	log.Info("Launching server")
 	err = srv.ListenAndServe()
 	if atomic.LoadInt32(&terminated) == 0 {
 		if err != nil {
-			log.Error(fmt.Sprintf("During startup of server [pid=%s], this error has occurred : %s", strconv.Itoa(os.Getpid()), err))
+			log.Error("During startup, error has occurred", "error", err)
 		}
 		return err
 	} else {
-		log.Info(fmt.Sprintf("Server [pid=%s] is going to shutdown", strconv.Itoa(os.Getpid())))
+		log.Info("Server is going to shutdown")
 		return nil
 	}
 }

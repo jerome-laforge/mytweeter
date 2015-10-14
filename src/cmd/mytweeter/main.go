@@ -22,11 +22,10 @@ import (
 //create index on example.user(login);
 //insert into example.user(id, login, passwd) values (now(), 'admin', 'f807c2b4caa8ca621298907e5372c975a6e07322');
 func main() {
-	log15.Root().SetHandler(log15.CallerFileHandler(log15.StdoutHandler))
-	log := log15.New("module", "main")
+	log15.Root().SetHandler(log15.CallerStackHandler("%+v", log15.StdoutHandler))
 	session, err := dao.GetSession()
 	if err != nil {
-		log.Error(err.Error())
+		log15.Error(err.Error())
 		os.Exit(1)
 	}
 	defer session.Close()
