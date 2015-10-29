@@ -67,6 +67,7 @@
 				},
 				"id": {
 					"description": "uuid",
+					"example": "e4f47381-7e5b-11e5-ae43-a0481c85605e",
 					"type": "string"
 				},
 				"text": {
