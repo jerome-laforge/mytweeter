@@ -45,7 +45,7 @@ func StartWebServer() error {
 	e.Get("/api/v1/tweets/:id", getAllTweetForV1)
 	e.Get("/api/v1/wait/:timeout", waitFor)
 	e.Get("/api/v1/wait_protected/:timeout", waitForProtected)
-	//e.Static("/", "/www/static")
+	e.Static("/", "www/static/")
 	logsrv := log15.New("pid", os.Getpid(), "addr", conf.Web.Address)
 	return listenAndServer(logsrv, conf.Web.Address, handlers.LoggingHandler(os.Stdout, handlers.CompressHandler(e.Router())))
 }

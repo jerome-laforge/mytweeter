@@ -1,0 +1,80 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"version": "1.0.0",
+		"title": "My tweeter"
+	},
+	"basePath": "/api/v1",
+	"paths": {
+		"/tweets/{id}": {
+			"get": {
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "ID",
+						"type": "string",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			}
+		},
+		"/tweet": {
+			"post": {
+				"consumes": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"description": "tweet",
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/tweet"
+						}
+					}
+				],
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					},
+					"400": {
+						"description": "Bad request"
+					},
+					"500": {
+						"description": "Internal Error"
+					}
+				}
+			}
+		}
+	},
+	"definitions": {
+		"tweet": {
+			"properties": {
+				"timeline": {
+					"description": "User of this tweet",
+					"example": "Tintin",
+					"type": "string"
+				},
+				"id": {
+					"description": "uuid",
+					"type": "string"
+				},
+				"text": {
+					"description": "The content of this tweet",
+					"example": "bla bla bla",
+					"type": "string"
+				}
+			}
+		}
+	}
+}
