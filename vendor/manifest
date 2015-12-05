@@ -53,6 +53,12 @@
 			"branch": "master"
 		},
 		{
+			"importpath": "github.com/fsouza/go-dockerclient",
+			"repository": "https://github.com/fsouza/go-dockerclient",
+			"revision": "dc4295a98977ab5b1983051bc169b784c4b423df",
+			"branch": "master"
+		},
+		{
 			"importpath": "github.com/fvbock/endless",
 			"repository": "https://github.com/fvbock/endless",
 			"revision": "29731417c69b13f53da28038a454e832c59519c4",
